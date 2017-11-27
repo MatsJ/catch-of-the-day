@@ -8,6 +8,7 @@ class Inventory extends React.Component {
                 <h2>Inventory</h2>
                 {/* Pass function down to AddFishForm */}
                 <AddFishForm addFish={this.props.addFish}/>
+                <button onClick={this.props.loadSamples}>Load Sample fishes</button>
             </div>
             
         )

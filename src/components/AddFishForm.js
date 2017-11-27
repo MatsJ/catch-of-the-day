@@ -19,7 +19,10 @@ class AddFishForm extends React.Component {
             desc: this.desc.value,
             image: this.image.value
         }
+
+        // calls the addFish function made in App.js
         this.props.addFish(fish);
+        // clears the inputfields when submiting.
         this.fishForm.reset();
     }
     render() {

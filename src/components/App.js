@@ -1,6 +1,8 @@
 import React from 'react';
 
 import sampleFishes from '../sample-fishes';
+import base from '../base';
+
 import Header from './Header';
 import Order from './Order';
 import Inventory from './Inventory';
@@ -24,6 +26,18 @@ class App extends React.Component {
         this.setState({
             fishes: sampleFishes
         })
+    }
+    // hook into the app component milliseconds before it is rendered to sync it with DB
+    componentWillMount() {
+        this.ref = base.syncState(`${this.props.params.storeId}/fishes`
+        , {
+            context: this,
+            state: 'fishes'
+        });
+    }
+    //if url changes stop tracking
+    componentWillUnmount() {
+        base.removeBinding(this.ref);
     }
     addFish(fish) {
         // update state
@@ -60,7 +74,7 @@ class App extends React.Component {
                         }
                     </ul>
                 </div>
-                <Order />
+                <Order fishes={this.state.fishes} order={this.state.order}/>
                 {/* Passing function down to Inventory.js */}
                 <Inventory addFish={this.addFish} loadSamples={this.loadSamples}/>
             </div>

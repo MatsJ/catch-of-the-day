@@ -9,6 +9,7 @@ class StorePicker extends React.Component {
         // can also go down to onSubmit and type this.goToStore.bind(this)
         // but this creates an own function every time StorePicker is used
     }
+    
     goToStore(event) {
         event.preventDefault();
         // first grab text from box

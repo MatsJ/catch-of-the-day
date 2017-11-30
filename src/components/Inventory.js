@@ -20,6 +20,8 @@ class Inventory extends React.Component {
         }
     }
 
+    // runs the exact moment the component is mounted
+        // checks if user is logged in or not
     componentDidMount() {
         // listen for authentication
         base.onAuth((user) => {
@@ -29,6 +31,7 @@ class Inventory extends React.Component {
         })
     }
 
+    // handles any changes made to the fishes in the inventory
     handleChange(e, key) { 
         const fish = this.props.fishes[key];
         //take copy of fish and update with new data
@@ -36,14 +39,17 @@ class Inventory extends React.Component {
             ...fish, 
             [e.target.name]: e.target.value //inputs and select field (overwrite old value)
         }
+        // update the fishes object
         this.props.updateFish(key, updatedFish);
     }
 
+    // authenticate login method
     authenticate(provider) {
         console.log(provider);
         base.authWithOAuthPopup(provider, this.authHandler);
     }
 
+    //log out
     logout() {
         // log out of firebase
         base.unauth();
@@ -51,6 +57,7 @@ class Inventory extends React.Component {
         this.setState({ uid: null })
     }
 
+    //handle authentication
     authHandler(err, authData) {
         if(err) {
             console.error(err);
@@ -89,6 +96,7 @@ class Inventory extends React.Component {
         )
     }
 
+    // inventory
     renderInventory(key) {
         const fish = this.props.fishes[key];
         return (
@@ -107,14 +115,17 @@ class Inventory extends React.Component {
     }
 
     render() {
+        // logout button
         const logout = <button onClick={this.logout}>Log Out!</button>
         
         // check if they are not logged in
+            // then render the login button
         if(!this.state.uid) {
             return <div>{this.renderLogin()}</div>
         }
 
         // check if uid is owner of store
+            // if not owner of store then prompt that message
         if(this.state.uid !== this.state.owner) {
             return (
                 <div>
@@ -123,6 +134,7 @@ class Inventory extends React.Component {
                 </div>
             )
         }
+        // else, render the inventory
         return(
             <div>
                 <h2>Inventory</h2>

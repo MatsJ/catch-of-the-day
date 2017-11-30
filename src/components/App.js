@@ -1,8 +1,10 @@
 import React from 'react';
 
+// helper js files
 import sampleFishes from '../sample-fishes';
 import base from '../base';
 
+// components
 import Header from './Header';
 import Order from './Order';
 import Inventory from './Inventory';
@@ -12,6 +14,7 @@ class App extends React.Component {
     constructor() {
         super();
 
+        // bind the functions to this component, this way we can use the "this" keyword
         this.addFish = this.addFish.bind(this);
         this.loadSamples = this.loadSamples.bind(this);
         this.addToOrder = this.addToOrder.bind(this);
@@ -27,6 +30,7 @@ class App extends React.Component {
     }
 
     loadSamples() {
+        // fill fishes with fish from sample-fishes.js
         this.setState({
             fishes: sampleFishes
         })
@@ -35,6 +39,7 @@ class App extends React.Component {
     // hook into the app component milliseconds before it is rendered to sync it with DB
     componentWillMount() {
         // this runs right before the app is rendered
+            // sync with firebase
         this.ref = base.syncState(`${this.props.params.storeId}/fishes`
         , {
             context: this,
@@ -52,41 +57,48 @@ class App extends React.Component {
         }
     }
 
-    //if url changes stop tracking
+    //if url changes -> stop tracking
     componentWillUnmount() {
         base.removeBinding(this.ref);
     }
 
-    // runs when props or state changes 
+    // runs when props or state changes
+        // store item in localstorage 
     componentWillUpdate(nextProps, nextState) {
          localStorage.setItem(`order-${this.props.params.storeId}`, JSON.stringify(nextState.order)); 
     }
 
     addFish(fish) {
         // update state
-            // spread current state of fishes into variable
+            // spread/fill current state of fishes into variable
         const fishes = {...this.state.fishes};
             // add new fish
+            // get datenow to add a unique name to any new fishes added
         const timestamp = Date.now();
-        //give it unique name
+        // give it unique name
         fishes[`fish-${timestamp}`] = fish;
 
-        //set state
+        // set state
+            // add this new fish to the fishes object
         this.setState({ fishes })
     }
 
     updateFish(key, updatedFish) {
         // take copy of fishes
         const fishes = {...this.state.fishes};
-        //overwrite that one fish
+        // overwrite that one fish
         fishes[key] = updatedFish; 
-        //change state of the fishes
+        // change state of the fishes
         this.setState({ fishes });
     }
 
+    // function for removing fish from fishes object
     removeFish(key) {
+        // take copy of fishes
         const fishes = {...this.state.fishes};
+        // set the fish you deleted to null
         fishes[key] = null;
+        // update state of fishes object
         this.setState({ fishes });
     }
 
@@ -100,8 +112,11 @@ class App extends React.Component {
     }
 
     removeFromOrder(key) {
+        // copy object
         const order = {...this.state.order};
+        // delete the order
         delete order[key];
+        // update state
         this.setState({ order });
     }
 
@@ -135,6 +150,7 @@ class App extends React.Component {
     }
 }
 
+// only parameter we pass on as props here is the params.
 App.propTypes = {
     params: React.PropTypes.object.isRequired
 }

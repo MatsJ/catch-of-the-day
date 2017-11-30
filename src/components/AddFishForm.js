@@ -1,5 +1,8 @@
 import React from 'react';
 
+/*
+    Component to add fish to the inventory
+*/
 class AddFishForm extends React.Component {
     constructor() {
         super();
@@ -8,6 +11,7 @@ class AddFishForm extends React.Component {
             If you dont want a constructor you can put this instead : onSubmit={(e) => this.createFish(e)}
         */
     }
+
     createFish(event) {
         event.preventDefault();
         console.log('Gonna make some fish 🐠');

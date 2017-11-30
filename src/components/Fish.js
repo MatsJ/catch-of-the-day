@@ -1,6 +1,9 @@
 import React from 'react';
 import { formatPrice } from '../helpers';
 
+/*
+    Component to render the fishes to the view and add selected fishes to order
+*/
 class Fish extends React.Component {
     render() {
         const { details, index } = this.props;

@@ -19,7 +19,7 @@ class Order extends React.Component {
         if(!fish || fish.status === 'unavailable' ) {
             return <li key={key}>Sorry, {fish ? fish.name : 'fish'} is no longer available {removeButton}</li>
         }
-
+        // else
         return (
             <li key={key}>
                 <span>
@@ -45,7 +45,7 @@ class Order extends React.Component {
         const total = orderIds.reduce((prevTotal, key) => {
             // gets fishes
             const fish = this.props.fishes[key];
-            //gets orders
+            // gets orders
             const count = this.props.order[key];
             // if fish is available return price and add upp
             const isAvailable = fish && fish.status === 'available';

@@ -5,6 +5,8 @@ import React from 'react';
     you dont need an entire react component
     instead use a stateless functional component like this:
     function Header {(code)} OR like below
+
+    Component that renders the header
 */
     const Header  = (props) => {
         return(

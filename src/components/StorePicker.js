@@ -10,6 +10,7 @@ class StorePicker extends React.Component {
         // but this creates an own function every time StorePicker is used
     }
     
+    // go to the store the user gets at root
     goToStore(event) {
         event.preventDefault();
         // first grab text from box

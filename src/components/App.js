@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 //components
 import Header from "./Header";
@@ -13,6 +14,11 @@ class App extends React.Component {
     fishes: {},
     order: {}
   };
+
+  static propTypes = {
+    match: PropTypes.object
+  };
+
   componentDidMount() {
     // reference to piece of data
     const { params } = this.props.match;
@@ -27,7 +33,6 @@ class App extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log(this.state.order);
     localStorage.setItem(
       this.props.match.params.storeId,
       JSON.stringify(this.state.order)
@@ -60,6 +65,17 @@ class App extends React.Component {
     this.setState({ fishes });
   };
 
+  deleteFish = key => {
+    // take copy of state
+    const fishes = { ...this.state.fishes };
+    // remove fish from state
+
+    fishes[key] = null;
+
+    // update fish
+    this.setState({ fishes });
+  };
+
   loadSampleFishes = () => {
     this.setState({ fishes: sampleFishes });
   };
@@ -70,6 +86,16 @@ class App extends React.Component {
 
     // add or update order
     order[key] = order[key] + 1 || 1;
+    // call setstate to update the state
+    this.setState({ order });
+  };
+
+  removeFromOrder = key => {
+    // copy state
+    const order = { ...this.state.order };
+
+    // remove item from order
+    delete order[key];
     // call setstate to update the state
     this.setState({ order });
   };
@@ -90,12 +116,18 @@ class App extends React.Component {
             ))}
           </ul>
         </div>
-        <Order fishes={this.state.fishes} order={this.state.order} />
+        <Order
+          fishes={this.state.fishes}
+          order={this.state.order}
+          removeFromOrder={this.removeFromOrder}
+        />
         <Inventory
           addFish={this.addFish}
           updateFish={this.updateFish}
           loadSampleFishes={this.loadSampleFishes}
           fishes={this.state.fishes}
+          deleteFish={this.deleteFish}
+          storeId={this.props.match.params.storeId}
         />
       </div>
     );

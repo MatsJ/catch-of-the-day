@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 class AddFishForm extends React.Component {
   // get values from inputfields
@@ -7,6 +8,10 @@ class AddFishForm extends React.Component {
   statusRef = React.createRef();
   descRef = React.createRef();
   imageRef = React.createRef();
+
+  static propTypes = {
+    addFish: PropTypes.func.isRequired
+  };
 
   createFish = e => {
     e.preventDefault();
